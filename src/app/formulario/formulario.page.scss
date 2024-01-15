@@ -1,0 +1,41 @@
+ion-header {
+    --background: #4a8df6; /* Cambia el color de fondo del encabezado */
+    --color: white; /* Cambia el color del texto del encabezado */
+  }
+  
+  ion-toolbar {
+    --background: #4a8df6; /* Cambia el color de fondo de la barra de herramientas */
+  }
+  
+  ion-title {
+    --color: white; 
+    /* Cambia el color del título */
+  }
+.mi-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mi-tabla th {
+  background-color: #94b1f5;
+  color: rgb(0, 0, 0);
+}
+
+.mi-tabla td {
+  border: 1px solid #ff6666b5;
+  padding: 8px;
+}
+
+
+ion-button {
+  margin-top: 10px;
+}
+
+ion-searchbar {
+  margin-top: 10px;
+}
+  @media screen and (max-width: 600px) {
+    .mi-clase {
+      font-size: 14px;
+    }
+  }

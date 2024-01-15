@@ -1,0 +1,67 @@
+<!-- formulario.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Formulario de Empleados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="agregarEmpleado()">
+    <ion-item>
+      <ion-label>Nombre Completo</ion-label>
+      <ion-input formControlName="nombreCompleto"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fecha de Nacimiento</ion-label>
+      <ion-datetime formControlName="fechaNacimiento"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Edad</ion-label>
+      <ion-input type="number" formControlName="edad"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cargo</ion-label>
+      <ion-select formControlName="cargo">
+        <ion-select-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.descripcion}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="form.invalid">Agregar Empleado</ion-button>
+  </form>
+
+  <ion-searchbar [(ngModel)]="filtro"></ion-searchbar>
+
+<ion-button (click)="paginaAnterior()" [disabled]="pagina === 0">Anterior</ion-button>
+<ion-button (click)="paginaSiguiente()" [disabled]="pagina >= (empleadosFiltrados.length / elementosPorPagina) - 1">Siguiente</ion-button>
+
+  <div class="table-responsive">
+  <table class="mi-tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Cargo</th>
+        <th>Edad</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of empleados$ | async; let i = index">
+        <tr *ngFor="let empleado of empleadosFiltrados | slice:(pagina * elementosPorPagina):(pagina + 1) * elementosPorPagina; let i = index">
+        <td>{{empleado.id}}</td>
+        <td>{{empleado.nombreCompleto}}</td>
+        <td>{{getCargoDescripcion(empleado.cargo)}}</td>
+        <td>
+          <ion-input [(ngModel)]="empleado.edad" (ionChange)="editarEmpleado(i, empleado)"></ion-input>
+        </td>
+        <td>{{empleado.estatus ? 'Activo' : 'Inactivo'}}</td>
+        <td>
+          <ion-button (click)="cambiarEstatus(i)">{{empleado.estatus ? 'Inactivar' : 'Activar'}}</ion-button>
+          <ion-button (click)="iniciarEdicionEmpleado(i, empleado)">Editar</ion-button>
+          <ion-button color="danger" (click)="eliminarEmpleado(i)">Eliminar</ion-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</ion-content>
